@@ -1,0 +1,56 @@
+.navbar-brand {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.navbar-inverse {
+  background-color: #099;
+  border-color: #099;
+  border: none;
+  border-radius: 0;
+}
+
+.navbar-inverse .navbar-nav>li>a {
+  color: #f2f2f2;
+}
+
+.page-footer {
+  padding-top: 9px;
+  margin: 20px 0 40px;
+  border-top: 1px solid #eee;
+}
+
+#states path {
+  fill: #ccc;
+  stroke: #fff;
+}
+
+#states path.active {
+  fill: red;
+}
+
+#states text {
+  font-size: 12pt;
+}
+
+section.main form .btn {
+  color: #999;
+}
+
+section.main form .btn.btn-lg {
+  font-size: 16px;
+  padding: 11px;
+}
+
+section.main form .btn.active {
+  background-image: none;
+  outline: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  background-color: #099;
+  color: #fff;
+}
+
+section.main form input[name=babyname] {
+  width: 100%;
+}
