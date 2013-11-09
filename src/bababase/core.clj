@@ -53,11 +53,12 @@
    "/_admin"
    admin-core/admin-wrapper)
 
-  (pages/add-page-routes
-   api-routes/api-routes
-   'caribou.api.controllers
-   "/_api"
-   api-core/api-wrapper)
+  ; disable builtin API
+  ;(pages/add-page-routes
+   ;api-routes/api-routes
+   ;'caribou.api.controllers
+   ;"/_api"
+   ;api-core/api-wrapper)
 
   (pages/add-page-routes
    (routes/gather-pages)
