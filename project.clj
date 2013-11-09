@@ -8,7 +8,12 @@
                  [org.clojure/tools.nrepl "0.2.3"]]
   :plugins [[lein-ring "0.8.6"]
             [caribou/lein-caribou "2.4.30"]
-            [lein-cljsbuild "0.3.3"]]
+            [lein-cljsbuild "0.3.3"]
+            [speclj "2.5.0"]]
+  :dev-dependencies [[speclj "2.5.0"]]
+  :profiles {:dev {:dependencies [[speclj "2.5.0"]
+                                  [ring-mock "0.1.5"]]}}
+  :test-paths ["spec"]
   :jvm-opts ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n" "-Xmx2g" "-XX:MaxPermSize=128m"]
   :source-paths ["src"]
   :resource-paths ["resources/"]
