@@ -1,13 +1,14 @@
 (ns bababase.utils-spec
   (:use [speclj.core])
-  (:require [bababase.utils :as utils]))
+  (:require [bababase.utils :as utils]
+            [caribou.model :as model]
+            [bababase.testing :as testing]))
 
-(def current-dir (-> (ClassLoader/getSystemResource *file*) clojure.java.io/file .getParent))
-(def utils-test-dir (clojure.string/join [current-dir "/../test-data/utils"]))
+(def utils-test-dir (str (utils/current-dir) "/../test-data/utils"))
 
 (defn get-test-file
   [filename]
-  (clojure.java.io/file (clojure.string/join [utils-test-dir "/" filename])))
+  (clojure.java.io/file (str utils-test-dir "/" filename)))
 
 (describe "bababase.utils/crawl [file]"
   (it "should return the file extension of file"
@@ -32,5 +33,25 @@
       (should= 2 (count (utils/list-directory-contents utils-test-dir "txt"))))
     (it "should return nil if dir does not exist"
       (should-be-nil (utils/list-directory-contents "/director/does/not/exist/" "txt")))))
+
+(describe "bababase.utils/current-dir"
+  (it "should return directory where called from"
+    (should-contain "/spec/bababase" (utils/current-dir))))
+
+(describe "bababase.utils/provide [slug spec]"
+  (around [it]
+    (testing/with-full-project it))
+
+  (it "should create and return a model if none exists"
+    (let [provided (utils/provide :year {:year 2012})]
+      (should= (model/pick :year {:where {:year 2012}}) provided)))
+
+  (it "should not create a model if already exists"
+    ; first create one
+    (model/create :year {:year 2012})
+    ; now provide
+    (let [provided (utils/provide :year {:year 2012})]
+      (should= (model/pick :year {:where {:year 2012}}) provided)
+      (should= 1 (count (model/gather :year {:where {:year 2012}}))))))
 
 (run-specs)

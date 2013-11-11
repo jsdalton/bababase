@@ -4,6 +4,8 @@
 /checkouts
 caribou_development.h2.db
 caribou_development.trace.db
+bababase_development*
+bababase_test*
 /target
 /resources/public/js/app/
 pom.xml

@@ -1,4 +1,6 @@
-(ns bababase.utils)
+(ns bababase.utils
+  (:require [caribou.model :as model]
+            [caribou.logger :as log]))
 
 (defn file-ext
   "Returns file extension, e.g. \"txt\" for .txt"
@@ -25,4 +27,21 @@
    (let [file (clojure.java.io/file dir)]
      (if (not (.exists file))
        nil
-       (filter #(file-has-ext? % ext) (file-seq (clojure.java.io/file dir)))))))
+       (filter
+         #(file-has-ext? % ext)
+         (file-seq (clojure.java.io/file dir)))))))
+
+(defn current-dir
+  "Returns string of current directory *where function is called from*"
+  []
+  (-> (ClassLoader/getSystemResource *file*) clojure.java.io/file .getParent))
+
+(defn provide
+  "Creates a model for slug with provided spec if none exists."
+  [slug spec]
+  (let [existing (model/pick slug {:where spec})]
+    (if (nil? existing)
+      (do
+        (log/debug (str "Creating " slug " " spec))
+        (model/create slug spec))
+      existing)))

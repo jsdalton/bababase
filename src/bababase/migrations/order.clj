@@ -1,3 +1,3 @@
 (ns bababase.migrations.order)
 
-(def order ["default" "admin" "years" "states" "givennames" "yearstatenames"])
+(def order ["default" "admin" "years" "regions" "givennames" "yearregionnamecounts"])
