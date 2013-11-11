@@ -42,6 +42,6 @@
   (let [existing (model/pick slug {:where spec})]
     (if (nil? existing)
       (do
-        (log/debug (str "Creating " slug " " spec))
+        (log/info (str "Creating " slug " " spec))
         (model/create slug spec))
       existing)))
