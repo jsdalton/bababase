@@ -86,7 +86,14 @@ d3.json('/data/us-states.json', function(collection) {
         return  path.centroid(d)[1];
     })
     .attr("text-anchor","middle")
-    .attr('font-size','8pt');
+    .attr('font-size', function (d) {
+      var area = path.area(d);
+      var size = (area/1000) * 3;
+      size = Math.min(size, 11);
+      size = Math.max(size, 6);
+      size = Math.round(size);
+      return size+"pt";
+    });
 
   d3.json('/data/names.json', function(collection) {
     group.selectAll('text')
@@ -115,3 +122,20 @@ $(".exclusive-checkboxes").each(function() {
     }
   });
 });
+
+
+/* TYPEAHEAD */
+
+$('form.home-search input[name=babyname]').typeahead({
+  name: 'names',
+  remote: {
+    url: "//localhost:33333/data/names-typeahead.json"
+  },
+  template: _.template('<div class="name-result"><div class="row"> <div class="col-sm-6"><p class="name"><%= value %></p></div> <div class="col-sm-1"><p class="gender"><i class="fa fa-male"></i></p></div> <div class="col-sm-5"> SPARKLINE </div></div></div>'),
+  local: ['alpha','allpha2','alpha3','bravo','charlie','delta','epsilon','gamma','zulu']
+});
+
+$('.tt-query').css('background-color','#fff')
+
+
+//<div class="row"> <div class="col-sm-1"> <i class="fa fa-male"></i> </div> <div class="col-sm-5"> <p class="name"><%= value %></p> </div> <div class="col-sm-6"> SPARKLINE </div> </div>

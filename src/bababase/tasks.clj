@@ -153,22 +153,27 @@
 
 (defn load-ssa-us-data
   "Load raw SSA names-by-state data found in given directory."
-  [dir]
-  (utils/provide :region {:name "United States" :code "US"})
-  (doseq [file (reverse (utils/list-directory-contents dir "txt"))]
-    (let [filename (.getName file)
-          year (utils/provide :year {:year (read-string (re-find #"\d{4}" filename))}) ]
-      (log/info (str "Processing " filename))
-      (with-open [rdr (clojure.java.io/reader file)]
-        (doseq [line (line-seq rdr)]
-          (let [row (line-to-map-usa line)
-                givenname (utils/provide :givenname {:name (:name row) :gender (:gender row)})
-                spec {:count (read-string (:count row))
-                      :region "US"
-                      :year (:year year)
-                      :name (:name row)
-                      :gender (:gender row)}]
-            (utils/provide :yearregionnamecount spec)))))))
+  ([dir]
+   (load-ssa-us-data dir 100000))
+  ([dir start-count]
+   (utils/provide :region {:name "United States" :code "US"})
+   (doseq [count_ (range start-count 0 -1000)
+           file (reverse (utils/list-directory-contents dir "txt"))]
+     (let [filename (.getName file)
+           year (utils/provide :year {:year (read-string (re-find #"\d{4}" filename))}) ]
+       (log/info (str "Processing count " count_ " in " filename))
+       (with-open [rdr (clojure.java.io/reader file)]
+         (doseq [line (line-seq rdr)]
+           (let [row (line-to-map-usa line)
+                 row-count (read-string (:count row))]
+             (if (and (>= row-count count_) (< row-count (+ count_ 10000)))
+               (let [givenname (utils/provide :givenname {:name (:name row) :gender (:gender row)})
+                     spec {:count row-count
+                           :region "US"
+                           :year (:year year)
+                           :name (:name row)
+                           :gender (:gender row)}]
+                 (utils/provide :yearregionnamecount spec))))))))))
 
 (defn load-ssa-us-data-task
   "Leiningen task wrapper around load-ssa-usa-data"

@@ -1,3 +1,5 @@
+/* PROJECT CSS */
+
 .navbar-brand {
   padding-top: 10px;
   padding-bottom: 10px;
@@ -29,20 +31,16 @@
   fill: red;
 }
 
-#states text {
-  font-size: 12pt;
-}
-
-section.main form .btn {
+form.home-search .btn {
   color: #999;
 }
 
-section.main form .btn.btn-lg {
+form.home-search .btn.btn-lg {
   font-size: 16px;
   padding: 11px;
 }
 
-section.main form .btn.active {
+form.home-search .btn.active {
   background-image: none;
   outline: 0;
   -webkit-box-shadow: none;
@@ -51,6 +49,79 @@ section.main form .btn.active {
   color: #fff;
 }
 
-section.main form input[name=babyname] {
+form.home-search input[name=babyname] {
   width: 100%;
+}
+
+form.home-search label.gender-selector {
+  width: 40px;
+}
+
+
+/* TYPEAHEAD CSS */
+
+.twitter-typeahead {
+  width: 100%;
+}
+
+.twitter-typeahead .tt-query,
+.twitter-typeahead .tt-hint {
+  margin-bottom: 0;
+  width: 100%;
+}
+
+.tt-dropdown-menu {
+  top: -5px;
+  min-width: 160px;
+  width: 100%;
+  margin-top: 2px;
+  padding: 5px 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0,0,0,.2);
+  *border-right-width: 2px;
+  *border-bottom-width: 2px;
+  -webkit-border-radius: 0 0 6px 6px;
+     -moz-border-radius: 0 0 6px 6px;
+          border-radius: 0 0 6px 6px;
+  -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+     -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+          box-shadow: 0 5px 10px rgba(0,0,0,.2);
+  -webkit-background-clip: padding-box;
+     -moz-background-clip: padding;
+          background-clip: padding-box;
+}
+
+.tt-suggestion {
+  display: block;
+  padding: 3px 15px;
+}
+
+.tt-suggestion.tt-is-under-cursor {
+  color: #fff;
+  background-color: #099;
+}
+
+.tt-suggestion.tt-is-under-cursor i.fa,
+.tt-suggestion.tt-is-under-cursor a {
+  color: #fff !important;
+}
+
+.tt-suggestion p {
+  margin: 0;
+}
+
+/* custom typeahed css */
+
+.name-result {
+  font-size: 15px;
+  line-height: 20px;
+}
+
+.name-result i.fa {
+  color: #999;
+}
+
+.name-result .name {
+  font-size: 20px;
 }
