@@ -125,14 +125,64 @@ $(".exclusive-checkboxes").each(function() {
 
 
 /* TYPEAHEAD */
+var spinnerOpts = {
+  lines: 13, // The number of lines to draw
+  length: 6, // The length of each line
+  width: 2, // The line thickness
+  radius: 6, // The radius of the inner circle
+  corners: 1, // Corner roundness (0..1)
+  rotate: 0, // The rotation offset
+  direction: 1, // 1: clockwise, -1: counterclockwise
+  color: '#000', // #rgb or #rrggbb or array of colors
+  speed: 2, // Rounds per second
+  trail: 60, // Afterglow percentage
+  shadow: false, // Whether to render a shadow
+  hwaccel: false, // Whether to use hardware acceleration
+  className: 'spinner', // The CSS class to assign to the spinner
+  zIndex: 2e9, // The z-index (defaults to 2000000000)
+  top: 'auto', // Top position relative to parent in px
+  left: 0,
+  right: 10 // Left position relative to parent in px
+};
 
-$('form.home-search input[name=babyname]').typeahead({
-  name: 'names',
-  remote: {
-    url: "//localhost:33333/data/names-typeahead.json"
-  },
-  template: _.template('<div class="name-result"><div class="row"> <div class="col-sm-6"><p class="name"><%= value %></p></div> <div class="col-sm-1"><p class="gender"><i class="fa fa-male"></i></p></div> <div class="col-sm-5"> SPARKLINE </div></div></div>'),
-  local: ['alpha','allpha2','alpha3','bravo','charlie','delta','epsilon','gamma','zulu']
+$('form.home-search input[name=babyname]').each(function() {
+  var $search = $(this);
+  var $form = $search.parents('form');
+  var $gender = $form.find('input[name=gender]').change(function() {
+    var val = $search.val();
+    $search.typeahead('setQuery', val).focus();
+  });
+  var spinner;
+
+
+  $search.typeahead({
+    name: 'names',
+    valueKey: "name",
+    limit: 20,
+    remote: {
+      url: "/api/v1/names?limit=20&q=<%= query %><%= gender %>",
+      cache: true,
+      beforeSend: function() {
+        spinnerOpts.left = $search.width() - 10;
+        spinner = new Spinner(spinnerOpts).spin($search.parent().get(0));
+      },
+      replace: function (url, urlEncodedQuery) {
+        var template = _.template(url);
+        var gender = $form.find('input[name=gender]:checked').val();
+        gender = (typeof gender !== "undefined") ? "&gender="+gender : "";
+        url = template({gender: gender, query: urlEncodedQuery});
+        return url;
+      },
+      filter: function (parsedResponse) {
+        if (spinner) {
+          spinner.stop();
+          spinner = null;
+        }
+        return parsedResponse.response;
+      }
+    },
+    template: _.template('<div class="name-result"><div class="row"> <div class="col-sm-6"><p class="name"><i class="fa fa-<% if (gender === "M") {print("male");} else {print("female");} %>"></i> <%= name %></p></div></div></div>'),
+  });
 });
 
 $('.tt-query').css('background-color','#fff')

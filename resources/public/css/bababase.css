@@ -40,17 +40,33 @@ form.home-search .btn.btn-lg {
   padding: 11px;
 }
 
+form.home-search .btn.active i.fa,
 form.home-search .btn.active {
   background-image: none;
   outline: 0;
   -webkit-box-shadow: none;
   box-shadow: none;
-  background-color: #099;
   color: #fff;
+}
+
+form.home-search .btn.active.male {
+  background-color: #0080ff;
+}
+
+form.home-search .btn.active.female {
+  background-color: #ff0080;
 }
 
 form.home-search input[name=babyname] {
   width: 100%;
+}
+
+i.fa-male {
+  color: #0080ff;
+}
+
+i.fa-female {
+  color: #ff0080;
 }
 
 form.home-search label.gender-selector {
@@ -119,7 +135,7 @@ form.home-search label.gender-selector {
 }
 
 .name-result i.fa {
-  color: #999;
+  width: 18px;
 }
 
 .name-result .name {
