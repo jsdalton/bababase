@@ -1,0 +1,5 @@
+* API should allow sequences for JSON -- currently requires hash map
+
+* :where should take "like" etc operators.
+
+* is query module safe? I can't find any escaping etc.
