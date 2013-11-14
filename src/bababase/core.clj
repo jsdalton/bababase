@@ -64,15 +64,11 @@
    (routes/gather-pages)
    (config/draw :controller :namespace)))
 
-(defn init
-  []
+(defn core-handler
+  [handler]
   (let [config (boot/boot)]
-    (caribou/with-caribou config
-      (reload-pages)
-      (repl/repl-init)
-      (cljs/brepl-init)
-      (def handler
-        (-> (handler/handler reload-pages)
+      (caribou/with-caribou config
+        (-> handler
             (provide-helpers)
             (wrap-reload)
             (wrap-file (config/draw :assets :dir))
@@ -92,7 +88,44 @@
             (cljs/wrap-cljs)
             (handler/wrap-caribou config)
             (wrap-session {:store (cookie-store {:key "5zibjapvgl0vgkzoc3im5cor07fpwewx"})})
-            (wrap-cookies))))))
+            (wrap-cookies)))))
+
+
+(defn init
+  ([]
+   (init true))
+  ([repl?]
+  (let [config (boot/boot)]
+    (caribou/with-caribou config
+      (reload-pages)
+      (if repl?
+        (do
+          (repl/repl-init)
+          (cljs/brepl-init)
+          )
+        )
+      (def handler
+        (-> (if repl? (handler/handler reload-pages) identity)
+            (provide-helpers)
+            (wrap-reload)
+            (wrap-file (config/draw :assets :dir))
+            (wrap-resource (config/draw :app :public-dir))
+            (wrap-file-info)
+            (wrap-head)
+            (lichen/wrap-lichen (config/draw :assets :dir))
+            (middleware/wrap-servlet-path-info)
+            (middleware/wrap-xhr-request)
+            (request/wrap-request-map)
+            (wrap-json-params)
+            (wrap-multipart-params)
+            (wrap-keyword-params)
+            (wrap-nested-params)
+            (wrap-params)
+            (wrap-content-type)
+            (cljs/wrap-cljs)
+            (handler/wrap-caribou config)
+            (wrap-session {:store (cookie-store {:key "5zibjapvgl0vgkzoc3im5cor07fpwewx"})})
+            (wrap-cookies)))))))
 
 ;; ^^^^^^^^^^
 ;; for heroku

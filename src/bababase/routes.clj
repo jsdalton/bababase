@@ -3,7 +3,7 @@
 
 (def api-routing
   ["api/v1"    :api
-   [["states"  :api.states []]]])
+   [["names"  :api.names []]]])
 
 (def routes
   [["/" :home [api-routing]]])
@@ -14,8 +14,8 @@
                       :template   "home.html"}}
    :api        {:GET {:controller 'api
                       :action     'index}}
-   :api.states {:GET {:controller 'api
-                      :action     'states-index}}})
+   :api.names {:GET {:controller 'api
+                      :action     'names-index}}})
 
 (defn page-tree
   []

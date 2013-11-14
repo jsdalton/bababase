@@ -17,7 +17,7 @@
 
 (describe "(with full project)"
   (around [it]
-    (testing/with-full-project it))
+    (testing/with-clean-project it))
 
   (describe "bababase.tasks/load-ssa-data-names-by-state [dir]"
     (it "should load all years from files in dir into Year model"
@@ -63,7 +63,7 @@
 
   (describe "bababase.tasks/load-ssa-us-data [dir]"
     (it "should load all years from files in dir into Year model"
-      (bababase.tasks/load-ssa-us-data ssa-data-us-test-dir 30000)
+      (bababase.tasks/load-ssa-us-data ssa-data-us-test-dir )
         (let [expected-years [2011 2012]
               found-years (map :year (model/gather :year))]
           (should= (count expected-years) (count found-years))
@@ -71,7 +71,7 @@
             (should-contain expected-year found-years))))
 
     (it "should load all names (gender-specified) from files in dir into GivenName model"
-      (bababase.tasks/load-ssa-us-data ssa-data-us-test-dir 30000)
+      (bababase.tasks/load-ssa-us-data ssa-data-us-test-dir )
       (let [found-names (map #(hash-map :name (:name %) :gender (:gender %)) (model/gather :givenname))]
         ; There are 83 unique name/gender combo in test text files
         (should= 105 (count found-names))
@@ -79,13 +79,13 @@
         (should-contain {:name "Caleb" :gender "M"} found-names)))
 
     (it "should load US into Region model"
-      (bababase.tasks/load-ssa-us-data ssa-data-us-test-dir 30000)
+      (bababase.tasks/load-ssa-us-data ssa-data-us-test-dir )
         (let [found-regions (map #(hash-map :name (:name %) :code (:code %)) (model/gather :region))]
           (should= 1 (count found-regions))
           (should-contain {:name "United States" :code "US"} found-regions)))
 
     (it "should load all entries from files in dir into YearRegionName model"
-      (bababase.tasks/load-ssa-us-data ssa-data-us-test-dir 30000)
+      (bababase.tasks/load-ssa-us-data ssa-data-us-test-dir )
       (let [found-yearregionnamecounts (model/gather :yearregionnamecount)]
         ; There are 200 entries on the test test files
         (should= 200 (count found-yearregionnamecounts))

@@ -40,7 +40,7 @@
 
 (describe "bababase.utils/provide [slug spec]"
   (around [it]
-    (testing/with-full-project it))
+    (testing/with-clean-project it))
 
   (it "should create and return a model if none exists"
     (let [provided (utils/provide :year {:year 2012})]
@@ -53,5 +53,15 @@
     (let [provided (utils/provide :year {:year 2012})]
       (should= (model/pick :year {:where {:year 2012}}) provided)
       (should= 1 (count (model/gather :year {:where {:year 2012}}))))))
+
+(describe "bababase.utils/fence [number minimum maximum]"
+  (it "should return number if number is between minimum and maximum"
+    (should= 27 (utils/fence 27 0 100)))
+
+  (it "should return minimum if number is below minimum"
+    (should= 0 (utils/fence -56 0 100)))
+
+  (it "should return maxiumum if number is above maximum"
+    (should= 100 (utils/fence 342432 0 100))))
 
 (run-specs)

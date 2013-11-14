@@ -45,3 +45,9 @@
         (log/info (str "Creating " slug " " spec))
         (model/create slug spec))
       existing)))
+
+
+(defn fence
+  "Ensures number is between maxi and mini"
+  [number minimum maximum]
+  (-> number (min maximum) (max minimum)))
