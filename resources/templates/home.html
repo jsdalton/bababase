@@ -50,7 +50,7 @@
     </nav>
     <section class="main">
       <div class="container">
-        <form method="get" action="" class="form-inline home-search" role="form">
+        <form method="get" action="/" class="form-inline home-search" role="form">
           <div class="row">
             <div class="form-group col-sm-10">
               <label class="sr-only" for="babyname-entry">Type a baby name...</label>
@@ -59,14 +59,15 @@
             <div class="form-group col-sm-2">
               <div class="btn-group exclusive-checkboxes" data-toggle="buttons">
                 <label class="gender-selector btn btn-default btn-lg" for="search-form-male">
-                  <input type="checkbox" name="male" id="search-form-male"> <i class="fa fa-male fa-lg"></i>
+                  <input type="checkbox" name="gender" id="search-form-male" value="M"> <i class="fa fa-male fa-lg"></i>
                 </label>
                 <label class="gender-selector btn btn-default btn-lg" for="search-form-female">
-                  <input type="checkbox" name="female" id="search-form-female"> <i class="fa fa-female fa-lg"></i>
+                  <input type="checkbox" name="gender" id="search-form-female" value="F"> <i class="fa fa-female fa-lg"></i>
                 </label>
               </div>
             </div>
           </div>
+          <input type="submit" style="visibility: hidden;" />
         </form>
         <section>
           <header>
